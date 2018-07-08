@@ -10,7 +10,11 @@ class RegistrationForm(UserCreationForm):
         label='Domain name'
     )
     email = forms.EmailField(required=True)
-    room = forms.IntegerField(required=True)
+    room = forms.IntegerField(
+        required=True,
+        min_value=300,
+        max_value=1699
+    )
 
     class Meta:
         model = User

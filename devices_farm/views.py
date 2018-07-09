@@ -17,3 +17,8 @@ def device(request, device_id):
     device = Device.objects.get(id=device_id)
     context = {'device': device}
     return render(request, 'devices_farm/device.html', context)
+
+
+@login_required()
+def change_current_holder():
+    pass

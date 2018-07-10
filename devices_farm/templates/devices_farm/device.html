@@ -1,5 +1,9 @@
 {% extends "devices_farm/base.html" %}
 
 {% block content %}
-<p> DEVICE PAGE</p>
+
+    {% for name, value in device.get_fields %}
+        <p>{{ name }} => {{ value }}</p>
+    {% endfor %}
+
 {% endblock content %}

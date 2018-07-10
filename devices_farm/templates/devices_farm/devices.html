@@ -1,5 +1,11 @@
 {% extends "devices_farm/base.html" %}
 
 {% block content %}
-<h1> DEVICES PAGE </h1>
+
+    {% for device in devices %}
+        <a href="{% url 'devices_farm:device' device.id %}">{{ device }}</a>
+    {% empty %}
+        <h3>No devices have been added yet.</h3>
+    {% endfor %}
+
 {% endblock content %}

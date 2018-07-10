@@ -20,6 +20,7 @@ class Device(models.Model):
         (WINDOWS, 'WINDOWS PHONE'),
     )
 
+    objects = models.Manager()
     device_platform = models.CharField(
         max_length=10,
         choices=PLATFORMS,
@@ -53,7 +54,7 @@ class Device(models.Model):
     # )
     # device_owner = models.ForeignKey(
     #     UserProfile,
-    #     db_column='room',
+    #     db_column='username',
     #     on_delete=models.CASCADE,
     # )
     mac_address = MACAddressField(
@@ -101,7 +102,8 @@ class Device(models.Model):
     )
     is_active = models.BooleanField(default=True,)
 
-
+    def get_fields(self):
+        return [(field.name, field.value_to_string(self)) for field in Device._meta.fields]
 
     def __str__(self):
         return self.device_name

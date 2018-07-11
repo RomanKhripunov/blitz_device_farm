@@ -39,8 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # my applications
-    'devices_farm',
-    'users',
+    'devices_farm.apps.DevicesFarmConfig',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [

@@ -22,6 +22,7 @@ class Device(models.Model):
 
     objects = models.Manager()
     device_platform = models.CharField(
+        name='platform',
         max_length=10,
         choices=PLATFORMS,
         default=None,
@@ -31,6 +32,7 @@ class Device(models.Model):
         default=None,
     )
     device_gpu = models.CharField(
+        name='GPU',
         max_length=20,
         default=None,
         null=True,
@@ -44,16 +46,19 @@ class Device(models.Model):
     )
     # current_holder = models.ForeignKey(
     #     UserProfile,
+    #     name = 'holder',
     #     db_column='username',
     #     on_delete=models.CASCADE,
     # )
     # current_room = models.ForeignKey(
     #     UserProfile,
+    #     name = 'room',
     #     db_column='room',
     #     on_delete=models.CASCADE,
     # )
     # device_owner = models.ForeignKey(
     #     UserProfile,
+    #     name='owner',
     #     db_column='username',
     #     on_delete=models.CASCADE,
     # )
@@ -74,13 +79,18 @@ class Device(models.Model):
         default='',
     )
     imei_number = models.CharField(
+        name='imei',
         max_length=20,
         null=True,
         blank=True,
         default='',
     )
-    sim_card = models.BooleanField(default=True,)
-    sd_card = models.BooleanField(default=False,)
+    sim_card = models.BooleanField(
+        default=True,
+    )
+    sd_card = models.BooleanField(
+        default=False,
+    )
     screen_resolution = models.CharField(
         max_length=20,
         null=True,
@@ -93,14 +103,24 @@ class Device(models.Model):
         blank=True,
         default='',
     )
-    memory_size = models.IntegerField()
+    memory_size = models.IntegerField(
+        help_text='Size in GB.',
+    )
     device_color = models.CharField(
+        name='color',
         max_length=20,
         null=True,
         blank=True,
         default='',
     )
-    is_active = models.BooleanField(default=True,)
+    is_active = models.BooleanField(
+        default=True,
+    )
+    characteristics_url = models.URLField(
+        default='',
+        blank=True,
+        null=True,
+    )
 
     def get_fields(self):
         return [(field.name, field.value_to_string(self)) for field in Device._meta.fields]

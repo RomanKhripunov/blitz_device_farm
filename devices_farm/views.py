@@ -9,7 +9,7 @@ def index(request):
 
 @login_required()
 def devices(request):
-    ordered_devices = Device.objects.order_by('device_platform')
+    ordered_devices = Device.objects.order_by('platform')
     context = {'devices': ordered_devices}
     return render(request, 'devices_farm/devices.html', context)
 
@@ -24,3 +24,12 @@ def device(request, device_id):
 @login_required()
 def change_current_holder():
     pass
+
+
+# TODO
+# https://docs.djangoproject.com/en/2.0/topics/db/queries/#retrieving-specific-objects-with-filters
+@login_required()
+def filter_devices(request, **kwargs):
+    filtered_devices = Device.objects.filter(**kwargs)
+    context = {'devices': filtered_devices}
+    return render(request, 'devices_farm/devices.html', context)

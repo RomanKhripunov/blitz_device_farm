@@ -3,7 +3,9 @@
 {% block content %}
 
     {% for device in devices %}
-        <a href="{% url 'devices_farm:device' device.id %}">{{ device }}</a>
+        <p>
+            <a href="{% url 'devices_farm:device' device.id %}">{{ device }}</a>
+        </p>
     {% empty %}
         <h3>No devices have been added yet.</h3>
     {% endfor %}

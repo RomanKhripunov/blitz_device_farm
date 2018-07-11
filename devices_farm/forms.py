@@ -9,7 +9,7 @@ class DeviceForm(forms):
         model = Device
 
     def clean(self):
-        current_platform = self.cleaned_data.get('device_platform')
+        current_platform = self.cleaned_data.get('platform')
         if current_platform == Device.ANDROID:
             device_gpu = self.cleaned_data.get('device_gpu', None)
             if device_gpu in EMPTY_VALUES:

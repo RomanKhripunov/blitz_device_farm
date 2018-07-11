@@ -9,6 +9,7 @@ class UserProfile(models.Model):
         on_delete=models.CASCADE,
         unique=True,
     )
+    username = user.name
     room = models.IntegerField()
     email = models.EmailField()
     first_name = models.CharField(max_length=20)
@@ -16,6 +17,9 @@ class UserProfile(models.Model):
 
     # email = models.EmailField()
     # last_name = models.CharField(max_length=25)
+
+    def __str__(self):
+        return str(self.username)
 
 
 def create_profile(sender, instance, **kwargs):

@@ -4,6 +4,7 @@
 
     {% for device in devices %}
         <p>
+            <!-- possible to use "def get_absolute_url(self)" instead -->
             <a href="{% url 'devices_farm:device' device.id %}">{{ device }}</a>
         </p>
     {% empty %}

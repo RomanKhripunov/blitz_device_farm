@@ -1,45 +1,50 @@
 from django.db import models
+from django.urls import reverse
 from macaddress.fields import MACAddressField
+from versionfield import VersionField
 
 from django.contrib.auth.models import User
 from users.models import UserProfile
-# class DeviceOS(models.Model):
-#     """Operation systems of ours devices_farm"""
-#     pass
+
+
+class Platform(models.Model):
+    name = models.CharField(
+        max_length=20,
+        help_text='Create a new platform.'
+    )
+
+    def __str__(self):
+        return self.name
 
 
 class Device(models.Model):
     """All information about devices_farm that we have"""
-    IOS = 'IOS'
-    ANDROID = 'ANDROID'
-    WINDOWS = 'WIN PHONE'
-
-    PLATFORMS = (
-        (IOS, 'iOS'),
-        (ANDROID, 'ANDROID'),
-        (WINDOWS, 'WINDOWS PHONE'),
-    )
-
     objects = models.Manager()
-    device_platform = models.CharField(
+    device_platform = models.ForeignKey(
+        Platform,
         name='platform',
-        max_length=10,
-        choices=PLATFORMS,
-        default=None,
+        on_delete=models.SET_NULL,
+        null=True,
     )
     device_name = models.CharField(
         max_length=20,
         default=None,
         blank=False,
     )
+    TYPES = (
+        ('p', 'Phone'),
+        ('t', 'Tablet'),
+    )
     device_type = models.CharField(
         name='type',
-        max_length=10,
-        choices=(
-            ('Phone', 'Phone'),
-            ('Tablet', 'Tablet'),
-        )
+        max_length=1,
+        choices=TYPES,
+        default='p',
     )
+    # TODO: needs to use version library
+    # os_version = VersionField(
+    #     default=''
+    # )
     os_version = models.CharField(
         max_length=10,
         default=None,
@@ -54,21 +59,25 @@ class Device(models.Model):
     )
     # current_holder = models.ForeignKey(
     #     UserProfile,
-    #     name = 'holder',
-    #     db_column='username',
-    #     on_delete=models.CASCADE,
+    #     name='holder',
+    #     on_delete=models.SET_NULL,
+    #     null=True,
+    #     default='',
+    #     to_field=UserProfile.username,
     # )
-    # current_room = models.ForeignKey(
+    # current_room = models.(
     #     UserProfile,
-    #     name = 'room',
-    #     db_column='room',
-    #     on_delete=models.CASCADE,
+    #     name='room',
+    #     on_delete=models.SET_NULL,
+    #     null=True,
+    #     to_field='room',
     # )
     # device_owner = models.ForeignKey(
     #     UserProfile,
     #     name='owner',
-    #     db_column='username',
-    #     on_delete=models.CASCADE,
+    #     on_delete=models.SET_NULL,
+    #     null=True,
+    #     to_field=UserProfile.username,
     # )
     company_number = models.CharField(
         max_length=20,
@@ -132,6 +141,9 @@ class Device(models.Model):
 
     class Meta:
         ordering = ['platform', 'type', 'device_name']
+
+    # def get_absolute_url(self):
+    #     return reverse('devices/', args=[str(self.id)])
 
     def get_fields(self):
         return [(field.name, field.value_to_string(self)) for field in Device._meta.fields]

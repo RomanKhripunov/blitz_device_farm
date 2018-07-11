@@ -27,6 +27,19 @@ class Device(models.Model):
         choices=PLATFORMS,
         default=None,
     )
+    device_name = models.CharField(
+        max_length=20,
+        default=None,
+        blank=False,
+    )
+    device_type = models.CharField(
+        name='type',
+        max_length=10,
+        choices=(
+            ('Phone', 'Phone'),
+            ('Tablet', 'Tablet'),
+        )
+    )
     os_version = models.CharField(
         max_length=10,
         default=None,
@@ -38,11 +51,6 @@ class Device(models.Model):
         null=True,
         blank=True,
         help_text='Only required if Platform is "Android".',
-    )
-    device_name = models.CharField(
-        max_length=20,
-        default=None,
-        blank=False,
     )
     # current_holder = models.ForeignKey(
     #     UserProfile,
@@ -62,12 +70,6 @@ class Device(models.Model):
     #     db_column='username',
     #     on_delete=models.CASCADE,
     # )
-    mac_address = MACAddressField(
-        null=True,
-        blank=True,
-        integer=False,
-        default='',
-    )
     company_number = models.CharField(
         max_length=20,
         null=True,
@@ -76,6 +78,12 @@ class Device(models.Model):
     )
     serial_number = models.CharField(
         max_length=20,
+        default='',
+    )
+    mac_address = MACAddressField(
+        null=True,
+        blank=True,
+        integer=False,
         default='',
     )
     imei_number = models.CharField(
@@ -121,6 +129,9 @@ class Device(models.Model):
         blank=True,
         null=True,
     )
+
+    class Meta:
+        ordering = ['platform', 'type', 'device_name']
 
     def get_fields(self):
         return [(field.name, field.value_to_string(self)) for field in Device._meta.fields]

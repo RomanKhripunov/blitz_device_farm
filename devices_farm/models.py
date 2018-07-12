@@ -1,9 +1,10 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.urls import reverse
+
 from macaddress.fields import MACAddressField
 from versionfield import VersionField
 
-from django.contrib.auth.models import User
 from users.models import UserProfile
 
 
@@ -50,35 +51,27 @@ class Device(models.Model):
         default=None,
     )
     device_gpu = models.CharField(
-        name='GPU',
         max_length=20,
         default=None,
         null=True,
         blank=True,
         help_text='Only required if Platform is "Android".',
     )
-    # current_holder = models.ForeignKey(
-    #     UserProfile,
-    #     name='holder',
-    #     on_delete=models.SET_NULL,
-    #     null=True,
-    #     default='',
-    #     to_field=UserProfile.username,
-    # )
-    # current_room = models.(
-    #     UserProfile,
-    #     name='room',
-    #     on_delete=models.SET_NULL,
-    #     null=True,
-    #     to_field='room',
-    # )
-    # device_owner = models.ForeignKey(
-    #     UserProfile,
-    #     name='owner',
-    #     on_delete=models.SET_NULL,
-    #     null=True,
-    #     to_field=UserProfile.username,
-    # )
+    device_owner = models.ForeignKey(
+        User,
+        name='owner',
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='user_owner'
+    )
+    current_holder = models.ForeignKey(
+        User,
+        name='holder',
+        on_delete=models.SET_NULL,
+        null=True,
+        default='',
+        related_name='user_holder'
+    )
     company_number = models.CharField(
         max_length=20,
         null=True,
@@ -143,7 +136,7 @@ class Device(models.Model):
         ordering = ['platform', 'type', 'device_name']
 
     # def get_absolute_url(self):
-    #     return reverse('devices/', args=[str(self.id)])
+    #     return reverse('w/', args=[str(self.id)])
 
     def get_fields(self):
         return [(field.name, field.value_to_string(self)) for field in Device._meta.fields]

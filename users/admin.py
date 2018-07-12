@@ -1,9 +1,13 @@
 from django.contrib import admin
-
 from users.models import UserProfile
 
 
-admin.site.register(UserProfile)
+@admin.register(UserProfile)
+class UserAdmin(admin.ModelAdmin):
+    list_display = ['first_name', 'last_name', 'email', 'room']
+
+
+# admin.site.register(UserProfile)
 
 
 # from django.contrib import admin

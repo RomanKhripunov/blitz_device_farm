@@ -25,13 +25,9 @@ class Device(models.Model):
         name='platform',
         max_length=20,
         choices=PLATFORMS,
-        default='',
-        null=True,
     )
     device_name = models.CharField(
         max_length=20,
-        default=None,
-        blank=False,
     )
 
     PHONE = 'Phone'
@@ -57,8 +53,6 @@ class Device(models.Model):
     )
     device_gpu = models.CharField(
         max_length=20,
-        default=None,
-        null=True,
         blank=True,
         help_text='Only required if Platform is "Android".',
     )
@@ -67,7 +61,6 @@ class Device(models.Model):
         name='owner',
         on_delete=models.SET_NULL,
         null=True,
-        default='',
         related_name='user_owner'
     )
     current_holder = models.ForeignKey(
@@ -75,18 +68,15 @@ class Device(models.Model):
         name='holder',
         on_delete=models.SET_NULL,
         null=True,
-        default='',
         related_name='user_holder'
     )
     company_number = models.CharField(
         max_length=20,
-        null=True,
         blank=True,
         default='',
     )
     serial_number = models.CharField(
         max_length=20,
-        default='',
     )
     mac_address = MACAddressField(
         null=True,
@@ -97,7 +87,6 @@ class Device(models.Model):
     imei_number = models.CharField(
         name='imei',
         max_length=20,
-        null=True,
         blank=True,
         default='',
     )
@@ -109,13 +98,11 @@ class Device(models.Model):
     )
     screen_resolution = models.CharField(
         max_length=20,
-        null=True,
         blank=True,
         default='',
     )
     screen_diagonal = models.CharField(
         max_length=20,
-        null=True,
         blank=True,
         default='',
     )
@@ -125,7 +112,6 @@ class Device(models.Model):
     device_color = models.CharField(
         name='color',
         max_length=20,
-        null=True,
         blank=True,
         default='',
     )
@@ -135,7 +121,6 @@ class Device(models.Model):
     characteristics_url = models.URLField(
         default='',
         blank=True,
-        null=True,
     )
 
     class Meta:

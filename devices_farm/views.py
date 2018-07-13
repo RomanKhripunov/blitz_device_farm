@@ -1,6 +1,10 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Device
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
+from django.urls import reverse
+
+from devices_farm.models import Device
+from devices_farm.forms import DeviceForm
 
 
 def index(request):
@@ -23,6 +27,26 @@ def device(request, device_id):
 
 @login_required()
 def change_current_holder():
+    pass
+
+
+# TODO
+@login_required()
+def add_device(request):
+    if request.method == 'POST':
+        form = DeviceForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+        return HttpResponseRedirect(reverse('devices_farm:devices'))
+    else:
+        form = DeviceForm()
+    context = {'form': form}
+    return render(request, 'devices_farm/add_device.html', context)
+
+
+# TODO
+@login_required()
+def edit_device(request, device_id):
     pass
 
 

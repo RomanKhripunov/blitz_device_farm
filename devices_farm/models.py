@@ -8,23 +8,24 @@ from versionfield import VersionField
 from users.models import UserProfile
 
 
-class Platform(models.Model):
-    name = models.CharField(
-        max_length=20,
-        help_text='Create a new platform.'
-    )
-
-    def __str__(self):
-        return self.name
-
-
 class Device(models.Model):
     """All information about devices_farm that we have"""
     objects = models.Manager()
-    device_platform = models.ForeignKey(
-        Platform,
+
+    ANDROID = 'Android'
+    IOS = 'iOS'
+    WIN_MOBILE = 'Windows Mobile'
+    PLATFORMS = (
+        (IOS, IOS),
+        (ANDROID, ANDROID),
+        (WIN_MOBILE, WIN_MOBILE)
+    )
+
+    device_platform = models.CharField(
         name='platform',
-        on_delete=models.SET_NULL,
+        max_length=20,
+        choices=PLATFORMS,
+        default='',
         null=True,
     )
     device_name = models.CharField(
@@ -32,15 +33,19 @@ class Device(models.Model):
         default=None,
         blank=False,
     )
+
+    PHONE = 'Phone'
+    TABLET = 'Tablet'
     TYPES = (
-        ('p', 'Phone'),
-        ('t', 'Tablet'),
+        (PHONE, PHONE),
+        (TABLET, TABLET),
     )
+
     device_type = models.CharField(
         name='type',
-        max_length=1,
+        max_length=20,
         choices=TYPES,
-        default='p',
+        default=PHONE,
     )
     # TODO: needs to use version library
     # os_version = VersionField(
@@ -62,6 +67,7 @@ class Device(models.Model):
         name='owner',
         on_delete=models.SET_NULL,
         null=True,
+        default='',
         related_name='user_owner'
     )
     current_holder = models.ForeignKey(

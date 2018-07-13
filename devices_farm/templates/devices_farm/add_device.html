@@ -1,0 +1,12 @@
+{% extends "devices_farm/base.html" %}
+
+{% block content %}
+    <h2>ADD NEW DEVICE</h2>
+    <form action="{% url 'devices_farm:add_device' %}" class="form" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button name="submit">
+            Add device
+        </button>
+    </form>
+{% endblock content %}

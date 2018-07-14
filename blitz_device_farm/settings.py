@@ -123,4 +123,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 LOGIN_URL = '/users/login/'
-# AUTH_PROFILE_MODULE = 'users.UserProfile'
+AUTH_USER_MODEL = 'users.User'

@@ -1,31 +1,22 @@
 {% extends "devices_farm/base.html" %}
 
 {% block content %}
-    <table border="1" width="50%" align="center">
-        <tr>
-            <th>Devices</th>
-        </tr>
+    <h1>Devices</h1>
         {% for device in devices %}
-        <tr>
-            <td>
+            <li>
                 <!-- possible to use "def get_absolute_url(self)" instead -->
-                <a href="{% url 'devices_farm:device' device.id %}">
-                    {{ device.device_name }} -
+                <a href="{{ device.get_absolute_url }}">
                     {{ device.platform }} -
-                    {{ device.device_gpu }} -
+                    {{ device.device_name }} -
                     {{ device.type }} -
                     {{ device.holder }}
                 </a>
-            </td>
-        </tr>
+            </li>
         {% empty %}
-        <tr>
-            <td>
+            <li>
                 <h3>No devices have been added yet.</h3>
-            </td>
-        </tr>
+            </li>
         {% endfor %}
-    </table>
     <form action="{% url 'devices_farm:add_device' %}">
         <button name="submit">Add new device</button>
     </form>

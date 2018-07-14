@@ -1,11 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.urls import reverse
 
 from macaddress.fields import MACAddressField
 from versionfield import VersionField
 
-from users.models import UserProfile
+from users.models import User
 
 
 class Device(models.Model):
@@ -126,8 +125,8 @@ class Device(models.Model):
     class Meta:
         ordering = ['platform', 'type', 'device_name']
 
-    # def get_absolute_url(self):
-    #     return reverse('w/', args=[str(self.id)])
+    def get_absolute_url(self):
+        return reverse('devices_farm:device', args=[str(self.id)])
 
     def get_fields(self):
         return [(field.name, field.value_to_string(self)) for field in Device._meta.fields]

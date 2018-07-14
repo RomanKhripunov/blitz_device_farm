@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from devices_farm import views
+from . import views
 
 
 urlpatterns = [

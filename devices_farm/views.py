@@ -4,8 +4,8 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views import generic
 
-from devices_farm.models import Device
-from devices_farm.forms import DeviceForm
+from .models import Device
+from .forms import DeviceForm
 
 
 def index(request):

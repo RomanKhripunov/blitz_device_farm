@@ -1,7 +1,7 @@
 from django import forms
 from django.core.validators import EMPTY_VALUES
 
-from devices_farm.models import Device
+from .models import Device
 
 
 class DeviceForm(forms.ModelForm):

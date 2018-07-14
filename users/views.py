@@ -5,7 +5,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserChangeForm
 
-from users.forms import RegistrationForm
+from .forms import RegistrationForm
 
 
 def logout_view(request):

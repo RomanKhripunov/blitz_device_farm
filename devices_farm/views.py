@@ -8,10 +8,6 @@ from .models import Device
 from .forms import DeviceForm
 
 
-def index(request):
-    return render(request, 'devices_farm/index.html')
-
-
 # @login_required()
 # def devices(request):
 #     ordered_devices = Device.objects.order_by('platform')

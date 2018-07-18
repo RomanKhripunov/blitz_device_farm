@@ -2,62 +2,57 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
-from django.views import generic
+from django.utils.decorators import method_decorator
+from django.views.generic import ListView, DetailView, DeleteView, UpdateView, CreateView
 
 from .models import Device
 from .forms import DeviceForm
 
 
-# @login_required()
-# def devices(request):
-#     ordered_devices = Device.objects.order_by('platform')
-#     context = {'devices': ordered_devices}
-#     return render(request, 'devices_farm/devices.html', context)
-class DeviceListView(generic.ListView):
+class DeviceList(ListView):
     model = Device
     context_object_name = 'devices'
     template_name = 'devices_farm/devices.html'
-    paginate_by = 20
+    paginate_by = 10
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(DeviceList, self).dispatch(request, *args, **kwargs)
 
 
-# @login_required()
-# def device(request, device_id):
-#     device = get_object_or_404(Device, id=device_id)
-#     context = {'device': device}
-#     return render(request, 'devices_farm/device.html', context)
-class DeviceDetailView(generic.DetailView):
+class DeviceDetail(DetailView):
     model = Device
     context_object_name = 'device'
     template_name = 'devices_farm/device.html'
 
-
-@login_required()
-def change_current_holder():
-    pass
-
-
-# TODO
-@login_required()
-def add_device(request):
-    if request.method == 'POST':
-        form = DeviceForm(data=request.POST)
-        if form.is_valid():
-            form.save()
-        return HttpResponseRedirect(reverse('devices_farm:devices'))
-    else:
-        form = DeviceForm()
-    context = {'form': form}
-    return render(request, 'devices_farm/add_device.html', context)
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(DeviceDetail, self).dispatch(request, *args, **kwargs)
 
 
-# TODO
-# @login_required()
-# def edit_device(request, device_id):
-#     pass
-class DeviceUpdateView(generic.UpdateView):
+class AddDevice(CreateView):
     model = Device
-    context_object_name = 'device'
+    fields = '__all__'
+    template_name = 'devices_farm/add_device.html'
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(AddDevice, self).dispatch(request, *args, **kwargs)
+
+
+class DeviceUpdate(UpdateView):
+    model = Device
+    fields = '__all__'
     template_name = 'devices_farm/edit_device.html'
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(DeviceUpdate, self).dispatch(request, *args, **kwargs)
+
+
+@login_required()
+def change_current_holder(request, device_id):
+    pass
 
 
 # TODO

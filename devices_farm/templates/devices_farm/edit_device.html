@@ -3,4 +3,16 @@
 {% block content %}
     <h1>EDIT PAGE</h1>
 
+    <form method="post" action="{% url 'devices_farm:edit-device' device.pk %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button name="Submit">Update</button>
+        <a href="{% url 'devices_farm:device' device.pk %}">
+            <button name="Cancel">
+                Cancel
+            </button>
+        </a>
+    </form>
+
 {% endblock content %}

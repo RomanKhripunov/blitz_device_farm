@@ -15,5 +15,16 @@
             </tr>
         {% endfor %}
     </table>
+    <div>
+        <a href="{% url 'devices_farm:edit-device' device.pk %}">
+            <button name="Edit">Edit</button>
+        </a>
+    </div>
+    <div>
+        <a href="{% url 'devices_farm:devices' %}">
+            <button name="Cancel">Cancel</button>
+        </a>
+    </div>
+
 
 {% endblock content %}

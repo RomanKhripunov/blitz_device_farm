@@ -1,22 +1,32 @@
 {% extends "devices_farm/base.html" %}
 
 {% block content %}
-    <h1>Devices</h1>
-        {% for device in devices %}
-            <li>
-                <!-- possible to use "def get_absolute_url(self)" instead -->
-                <a href="{{ device.get_absolute_url }}">
-                    {{ device.platform }} -
-                    {{ device.device_name }} -
-                    {{ device.type }} -
-                    {{ device.holder }}
-                </a>
-            </li>
-        {% empty %}
-            <li>
-                <h3>No devices have been added yet.</h3>
-            </li>
-        {% endfor %}
+    <h1>All Devices</h1>
+
+    {% for device in devices %}
+        <li>
+            <a href="{{ device.get_absolute_url }}">
+                {{ device.platform }} -
+                {{ device.device_name }} -
+                {{ device.type }} -
+                {{ device.holder }}
+            </a>
+            {% if user == device.owner %}
+                <button>
+                    Return to base
+                </button>
+            {% else %}
+                <button>
+                    Assign to ME
+                </button>
+            {% endif %}
+        </li>
+    {% empty %}
+        <li>
+            <h3>There isn't added devices.</h3>
+        </li>
+    {% endfor %}
+
     <form action="{% url 'devices_farm:add-device' %}">
         <button name="submit">Add new device</button>
     </form>

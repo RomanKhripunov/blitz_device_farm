@@ -2,28 +2,30 @@
 
 {% block content %}
     <h1>{{ device.device_name }}</h1>
-    <table border="1px solid black">
-        <tr>
-            <th>Parameter name</th>
-            <th >Value</th>
-        </tr>
+    <div class="container-fluid d-flex">
+        <table class="table table-hover table-bordered table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">Parameter name</th>
+                    <th scope="col">Value</th>
+                </tr>
+            </thead>
 
-        {% for name, value in device.get_fields %}
-            <tr>
-                <td>{{ name }}</td>
-                <td>{{ value }}</td>
-            </tr>
-        {% endfor %}
-    </table>
-    <div>
-        <a href="{% url 'devices_farm:edit-device' device.pk %}">
-            <button name="Edit">Edit</button>
-        </a>
+            <tbody>
+            {% for name, value in device.get_fields %}
+                <tr>
+                    <th scope="row">{{ name }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
     <div>
-        <a href="{% url 'devices_farm:devices' %}">
-            <button name="Cancel">Cancel</button>
-        </a>
+        <a href="{% url 'devices_farm:edit-device' device.pk %}" role="button">
+            <button type="button" class="btn btn-success">Edit</button></a>
+        <a href="{% url 'devices_farm:devices' %}" role="button">
+            <button type="button" class="btn btn-warning">Cancel</button></a>
     </div>
 
 

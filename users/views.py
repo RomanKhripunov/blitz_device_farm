@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserChangeForm
-from django.views.generic import DetailView
+from django.views import View
 from django.utils.decorators import method_decorator
 
 from .models import User
@@ -33,14 +33,16 @@ def register(request):
     return render(request, 'users/register.html', context)
 
 
-class ProfileDetail(DetailView):
+class ProfileDetail(View):
     model = User
-    context_object_name = 'user'
     template_name = 'users/profile.html'
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super(ProfileDetail, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request):
+        return render(request, self.template_name, {})
 
 
 # TODO: need define

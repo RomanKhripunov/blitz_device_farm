@@ -4,7 +4,10 @@ from django.urls import reverse
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserChangeForm
+from django.views.generic import DetailView
+from django.utils.decorators import method_decorator
 
+from .models import User
 from .forms import RegistrationForm
 
 
@@ -30,10 +33,14 @@ def register(request):
     return render(request, 'users/register.html', context)
 
 
-@login_required()
-def view_profile(request):
-    context = {'user': request.user}
-    return render(request, 'users/profile.html', context)
+class ProfileDetail(DetailView):
+    model = User
+    context_object_name = 'user'
+    template_name = 'users/profile.html'
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ProfileDetail, self).dispatch(request, *args, **kwargs)
 
 
 # TODO: need define
@@ -44,7 +51,7 @@ def edit_profile(request):
 
         if form.is_valid():
             form.save()
-            return redirect('/view_profile')
+            return redirect('/profile')
     else:
         form = UserChangeForm(instance=request.user)
     return None

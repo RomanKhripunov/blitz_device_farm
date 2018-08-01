@@ -1,31 +1,37 @@
 {% extends "devices_farm/base.html" %}
 
 {% block content %}
-    <h1>{{ device.device_name }}</h1>
-    <div class="container-fluid d-flex">
-        <table class="table table-hover table-bordered table-sm">
-            <thead>
-                <tr>
-                    <th scope="col">Parameter name</th>
-                    <th scope="col">Value</th>
-                </tr>
-            </thead>
+    <div class="container">
+        <div class="row justify-content-start table-responsive">
+            <div class="col-6">
+            <h1>{{ device.device_name }}</h1>
+            <table class="table table-hover table-bordered table-sm">
+                <thead>
+                    <tr class="table-secondary">
+                        <th>Parameter name</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
 
-            <tbody>
-            {% for name, value in device.get_fields %}
-                <tr>
-                    <th scope="row">{{ name }}</td>
-                    <td>{{ value }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                <tbody>
+                {% for name, value in device.get_fields %}
+                    <tr>
+                        <th>{{ name }}</td>
+                        <td>{{ value }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        </div>
     </div>
     <div>
-        <a href="{% url 'devices_farm:edit-device' device.pk %}" role="button">
-            <button type="button" class="btn btn-success">Edit</button></a>
-        <a href="{% url 'devices_farm:devices' %}" role="button">
-            <button type="button" class="btn btn-warning">Cancel</button></a>
+        <a class="btn btn-outline-success" href="{% url 'devices_farm:edit-device' device.pk %}" role="button">
+            Edit
+        </a>
+        <a class="btn btn-outline-danger" href="{% url 'devices_farm:devices' %}" role="button">
+            Cancel
+        </a>
     </div>
 
 

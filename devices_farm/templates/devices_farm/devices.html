@@ -13,13 +13,9 @@
                 {{ device.holder }}
             </a>
             {% if user == device.owner %}
-                <button>
-                    Return to base
-                </button>
+                <input value="Return to base" type="button" onclick="vote()" />
             {% else %}
-                <button>
-                    Assign to ME
-                </button>
+                <input value="Assign to ME" type="button" onclick="#" />
             {% endif %}
         </li>
     {% empty %}

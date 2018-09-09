@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -51,8 +51,14 @@ class DeviceUpdate(UpdateView):
 
 
 @login_required()
-def change_current_holder(request, device_id):
-    pass
+def change_holder(request, device_id):
+    if request.method == 'POST':
+        device = Device.objects.get(pk=device_id)
+        device.current_holder = request.POST['new_holder']
+        device.save()
+        return JsonResponse({'result': 'ok'})
+    else:
+        return JsonResponse({'result': 'nok'})
 
 
 # TODO

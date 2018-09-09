@@ -4,25 +4,29 @@
 {% block content %}
     <h1>All Devices</h1>
 
-    {% for device in devices %}
-        <li>
-            <a href="{{ device.get_absolute_url }}">
-                {{ device.platform }} -
-                {{ device.device_name }} -
-                {{ device.type }} -
-                {{ device.holder }}
-            </a>
-            {% if user == device.owner %}
-                <input value="Return to base" type="button" onclick="vote()" />
-            {% else %}
-                <input value="Assign to ME" type="button" onclick="#" />
-            {% endif %}
-        </li>
-    {% empty %}
-        <li>
-            <h3>There isn't added devices.</h3>
-        </li>
-    {% endfor %}
+    <div>
+        {% for device in devices %}
+            <li>
+                <a href="{{ device.get_absolute_url }}">
+                    {{ device.platform }} -
+                    {{ device.device_name }} -
+                    {{ device.type }} -
+                    {{ device.holder }}
+                </a>
+                {% if user == device.holder %}
+                    <input value="Return to base" type="button" class="return-to-base"
+                           data-ajax-target=""/>
+                {% else %}
+                    <input value="Assign to ME" type="button" class="assign-to-me"
+                           data-target="{% url 'devices_farm:change_holder' device.pk %}" target-user="{{ user }}"/>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>
+                <h3>There isn't added devices.</h3>
+            </li>
+        {% endfor %}
+    </div>
 
     <form action="{% url 'devices_farm:add-device' %}">
         <button name="submit" class="btn btn-primary">Add new device</button>

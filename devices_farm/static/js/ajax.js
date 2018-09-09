@@ -1,12 +1,12 @@
 $(document).ready( function() {
     $('.assign-to-me').click(function (event) {
-        var url = $( this ).attr("data-target")
-        var user = $( this ).attr("target-user")
         $.ajax({
             type : 'POST',
-            url : url,
+            url : $( this ).attr("data-target"),
             data : {
-                new_holder : user
+                'csrfmiddlewaretoken' : $( this ).attr("token"),
+                new_holder : $( this ).attr("target-user"),
+                device_pk : $( this ).attr("device_pk")
             },
             success : function(result) {}
         });

@@ -6,6 +6,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, DeleteView, UpdateView, CreateView
 
 from .models import Device
+from users.models import User
 from .forms import DeviceForm
 
 
@@ -51,10 +52,10 @@ class DeviceUpdate(UpdateView):
 
 
 @login_required()
-def change_holder(request, device_id):
+def change_holder(request):
     if request.method == 'POST':
-        device = Device.objects.get(pk=device_id)
-        device.current_holder = request.POST['new_holder']
+        device = Device.objects.get(pk=request.POST['device_pk'])
+        device.holder = User.objects.get(pk=request.POST['new_holder'])
         device.save()
         return JsonResponse({'result': 'ok'})
     else:

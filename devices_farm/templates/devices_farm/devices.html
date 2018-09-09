@@ -5,9 +5,10 @@
     <h1>All Devices</h1>
 
     <div>
+        {% csrf_token %}
         {% for device in devices %}
-            <li>
-                <a href="{{ device.get_absolute_url }}">
+            <li class="device-item">
+                <a href="{{ device.get_absolute_url }}" class="device-item-url">
                     {{ device.platform }} -
                     {{ device.device_name }} -
                     {{ device.type }} -
@@ -17,8 +18,9 @@
                     <input value="Return to base" type="button" class="return-to-base"
                            data-ajax-target=""/>
                 {% else %}
-                    <input value="Assign to ME" type="button" class="assign-to-me"
-                           data-target="{% url 'devices_farm:change_holder' device.pk %}" target-user="{{ user }}"/>
+                    <input value="Assign to ME" type="button" class="assign-to-me" id="{{ device.pk }}"
+                           data-target="{% url 'devices_farm:change_holder' %}" target-user="{{ user.id }}"
+                           token="{{ csrf_token }}" device_pk = "{{ device.pk }}"/>
                 {% endif %}
             </li>
         {% empty %}

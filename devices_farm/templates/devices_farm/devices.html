@@ -4,25 +4,50 @@
 {% block content %}
     <h1>All Devices</h1>
 
-    <div>
+    <div class="container">
         {% csrf_token %}
         {% for device in devices %}
-            <li class="device-item">
-                <a href="{{ device.get_absolute_url }}" class="device-item-url">
-                    {{ device.platform }} -
-                    {{ device.device_name }} -
-                    {{ device.type }} -
-                    {{ device.holder }}
-                </a>
+        <a href="{{ device.get_absolute_url }}" class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="row mb-1">
+                <div class="col-1">
+                  <input type="checkbox">
+                </div>
+                <div class="col-9">
+                        <div class="row">
+                            <div class="col-2">
+                                {% if device.platform == 'iOS' %}
+                                    <img src="{% static 'apple-logo.jpg' %}" class="img-thumbnail">
+                                {% elif device.platform == 'Android' %}
+                                    <img src="{% static 'android-logo.png' %}" class="img-thumbnail">
+                                {% else %}
+                                    <img src="{% static 'blitz_icon.png' %}" class="img-thumbnail">
+                                {% endif %}
+                            </div>
+                            <div class="col-10">
+                                {{ device.platform }} -
+                                {{ device.device_name }} -
+                                {{ device.type }} -
+                                {{ device.holder }}
+                            </div>
+                        </div>
+                </div>
+                <div class="col-2">
                 {% if user == device.holder %}
-                    <input value="Return to base" type="button" class="return-to-base"
-                           data-ajax-target=""/>
+                    <input value="Return to base" type="button" class="return-to-base btn btn-secondary btn-sm"
+                           id="{{ device.pk }}" data-target="{% url 'devices_farm:return_to_base' %}"
+                           token="{{ csrf_token }}" device_pk = "{{ device.pk }}"/>
                 {% else %}
-                    <input value="Assign to ME" type="button" class="assign-to-me" id="{{ device.pk }}"
-                           data-target="{% url 'devices_farm:change_holder' %}" target-user="{{ user.id }}"
+                    <input value="Assign to ME" type="button" class="assign-to-me btn btn-success btn-sm"
+                           id="{{ device.pk }}" data-target="{% url 'devices_farm:assign_to_me' %}" target-user="{{ user.id }}"
                            token="{{ csrf_token }}" device_pk = "{{ device.pk }}"/>
                 {% endif %}
-            </li>
+                </div>
+            </div>
+        </a>
+    </div>
+
+
+    <div class="container">
         {% empty %}
             <li>
                 <h3>There isn't added devices.</h3>
@@ -30,8 +55,15 @@
         {% endfor %}
     </div>
 
-    <form action="{% url 'devices_farm:add-device' %}">
-        <button name="submit" class="btn btn-primary">Add new device</button>
-    </form>
+
+    <div class="container">
+        <p>
+        <form action="{% url 'devices_farm:add-device' %}">
+            <button name="submit" class="btn btn-info">Add new device</button>
+        </form>
+        </p>
+    </div>
+
+
 
 {% endblock content %}

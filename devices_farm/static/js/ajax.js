@@ -8,18 +8,27 @@ $(document).ready( function() {
                 new_holder : $( this ).attr("target-user"),
                 device_pk : $( this ).attr("device_pk")
             },
-            success : function(result) {}
+            success : function(result) {
+            },
+            failure: function(result) {
+                alert('Something went wrong');
+            }
         });
     });
 
     $('.return-to-base').click(function (event) {
         $.ajax({
             type : 'POST',
-            url : "{% url 'devices_farm:change_holder' device.pk %}",
+            url : $( this ).attr("data-target"),
             data : {
-                new_holder : '{{ user }}'
+                'csrfmiddlewaretoken' : $( this ).attr("token"),
+                device_pk : $( this ).attr("device_pk")
             },
-            success : function(result) {}
+            success : function(result) {
+            },
+            failure: function(result) {
+                alert('Something went wrong');
+            }
         });
     });
 });

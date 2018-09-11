@@ -7,14 +7,16 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{% static 'css/devices_farm.css' %}">
-    <link rel="shortcut icon" href="{% static 'blitz_icon.jpg' %}">
+    <link rel="shortcut icon" href="{% static 'blitz_icon.png' %}">
 
 <body class="filter-dark">
 
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Blitz Devices Farm</a>
+                <a class="navbar-brand" href="#">
+                    <img src="{% static 'blitz_icon.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+                    Blitz Devices Farm</a>
             </div>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="nav navbar-nav">

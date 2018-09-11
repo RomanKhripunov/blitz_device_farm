@@ -52,10 +52,21 @@ class DeviceUpdate(UpdateView):
 
 
 @login_required()
-def change_holder(request):
+def assign_to_me(request):
     if request.method == 'POST':
         device = Device.objects.get(pk=request.POST['device_pk'])
         device.holder = User.objects.get(pk=request.POST['new_holder'])
+        device.save()
+        return JsonResponse({'result': 'ok'})
+    else:
+        return JsonResponse({'result': 'nok'})
+
+
+@login_required()
+def return_to_base(request):
+    if request.method == 'POST':
+        device = Device.objects.get(pk=request.POST['device_pk'])
+        device.holder = User.objects.get(pk=1)
         device.save()
         return JsonResponse({'result': 'ok'})
     else:
